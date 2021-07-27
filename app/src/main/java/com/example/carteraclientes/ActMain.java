@@ -1,5 +1,6 @@
 package com.example.carteraclientes;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -26,7 +27,6 @@ public class ActMain extends AppCompatActivity {
         /* 13 - No se ha cambiado nada */
         binding = ActMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_main);
@@ -36,8 +36,8 @@ public class ActMain extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent it = new Intent(ActMain.this,ActNuevoCliente.class);
+                startActivity(it);
             }
         });
     }
