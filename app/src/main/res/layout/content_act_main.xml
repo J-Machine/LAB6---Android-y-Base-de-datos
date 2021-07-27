@@ -8,5 +8,9 @@
     tools:context=".ActMain"
     tools:showIn="@layout/act_main">
 
+    <ListView
+        android:id="@+id/lsDatos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
