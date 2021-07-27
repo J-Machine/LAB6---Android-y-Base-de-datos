@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.carteraclientes.databinding.ActNuevoClienteBinding;
@@ -25,10 +26,11 @@ public class ActNuevoCliente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActNuevoClienteBinding.inflate(getLayoutInflater());
+//        binding = ActNuevoClienteBinding.inflate(getLayoutInflater());
         // setContentView(binding.getRoot());
         setContentView(R.layout.act_nuevo_cliente);
-        setSupportActionBar(binding.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
         // appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
