@@ -23,7 +23,7 @@ public class ActMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /* 13 - No se ha cambiado nada */
         binding = ActMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
