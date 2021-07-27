@@ -2,16 +2,17 @@ package com.example.carteraclientes;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import android.widget.Toast;
+
+
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.carteraclientes.databinding.ActNuevoClienteBinding;
 
@@ -25,19 +26,42 @@ public class ActNuevoCliente extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActNuevoClienteBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
+        // setContentView(binding.getRoot());
+        setContentView(R.layout.act_nuevo_cliente);
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
+        // appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+    }
+
+    // @Override
+//    public boolean onSupportNavigateUp() {
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
+//        return NavigationUI.navigateUp(navController, appBarConfiguration)
+//                || super.onSupportNavigateUp();
+//    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_act_nuevo_cliente, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_ok:
+                Toast.makeText(this, "Botón Ok seleccionado", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_cancelar:
+                Toast.makeText(this, "Botón Cancelar seleccionado", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
+
 }
