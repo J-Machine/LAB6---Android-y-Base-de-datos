@@ -80,11 +80,11 @@ public class ActNuevoCliente extends AppCompatActivity {
                         datosOpenHelper = new DatosOpenHelper(this);
                         conexion = datosOpenHelper.getWritableDatabase();
                         StringBuilder sql = new StringBuilder();
-                        sql.append("INSERT INTO CLIENT (NOMBRE, DIRECCION, EMAIL, TELEFONO) VALUES (' ");
+                        sql.append("INSERT INTO CLIENT (NOMBRE, DIRECCION, EMAIL, TELEFONO) VALUES ('");
                         sql.append(edtNombre.getText().toString().trim() + "', '");
                         sql.append(edtDireccion.getText().toString().trim() + "', '");
                         sql.append(edtEmail.getText().toString().trim() + "', '");
-                        sql.append(edtTelefono.getText().toString().trim() + "') ");
+                        sql.append(edtTelefono.getText().toString().trim() + "')");
 
                         conexion.execSQL(sql.toString());
                         conexion.close();

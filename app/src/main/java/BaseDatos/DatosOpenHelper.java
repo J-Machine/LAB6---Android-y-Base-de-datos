@@ -13,11 +13,11 @@ public class DatosOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         StringBuilder sql = new StringBuilder();
-        sql.append("CREATE  TABLE IF NOT EXISTS CLIENTE(");
+        sql.append("CREATE TABLE IF NOT EXISTS CLIENT(");
         sql.append("NOMBRE VARCHAR(250), ");
         sql.append("DIRECCION VARCHAR (250), ");
         sql.append("EMAIL VARCHAR(200), ");
-        sql.append("TELEFONO VARCHAR(20) )");
+        sql.append("TELEFONO VARCHAR(20))");
 
         db.execSQL(sql.toString());
     }
