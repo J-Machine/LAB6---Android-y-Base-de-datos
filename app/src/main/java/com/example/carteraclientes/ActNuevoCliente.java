@@ -1,14 +1,17 @@
 package com.example.carteraclientes;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -17,10 +20,19 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.carteraclientes.databinding.ActNuevoClienteBinding;
 
+import BaseDatos.DatosOpenHelper;
+
 public class ActNuevoCliente extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActNuevoClienteBinding binding;
+//    private AppBarConfiguration appBarConfiguration;
+//    private ActNuevoClienteBinding binding;
+    private EditText edtNombre;
+    private EditText edtDireccion;
+    private EditText edtEmail;
+    private EditText edtTelefono;
+
+    private SQLiteDatabase conexion;
+    private DatosOpenHelper datosOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +43,11 @@ public class ActNuevoCliente extends AppCompatActivity {
         setContentView(R.layout.act_nuevo_cliente);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        edtNombre = (EditText) findViewById(R.id.edtNombre);
+        edtDireccion = (EditText) findViewById(R.id.edtDireccion);
+        edtEmail = (EditText) findViewById(R.id.edtEmail);
+        edtTelefono = (EditText) findViewById(R.id.edtTelefono);
 
         // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
         // appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -58,12 +75,63 @@ public class ActNuevoCliente extends AppCompatActivity {
         switch (id) {
             case R.id.action_ok:
                 Toast.makeText(this, "Botón Ok seleccionado", Toast.LENGTH_SHORT).show();
+                if(bCamposCorrectos()){
+                    try {
+                        datosOpenHelper = new DatosOpenHelper(this);
+                        conexion = datosOpenHelper.getWritableDatabase();
+                        StringBuilder sql = new StringBuilder();
+                        sql.append("INSERT INTO CLIENT (NOMBRE, DIRECCION, EMAIL, TELEFONO) VALUES (' ");
+                        sql.append(edtNombre.getText().toString().trim() + "', '");
+                        sql.append(edtDireccion.getText().toString().trim() + "', '");
+                        sql.append(edtEmail.getText().toString().trim() + "', '");
+                        sql.append(edtTelefono.getText().toString().trim() + "') ");
+
+                        conexion.execSQL(sql.toString());
+                        conexion.close();
+                        finish();
+                    } catch (Exception ex) {
+                        AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+                        dlg.setTitle("Aviso");
+                        dlg.setMessage(ex.getMessage());
+                        dlg.setNeutralButton("OK", null);
+                        dlg.show();
+                    }
+                }
+                else {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+                    dlg.setTitle("Aviso");
+                    dlg.setMessage("Existen campos vacios");
+                    dlg.setNeutralButton("OK", null);
+                    dlg.show();
+                }
                 break;
             case R.id.action_cancelar:
                 Toast.makeText(this, "Botón Cancelar seleccionado", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean bCamposCorrectos() {
+        boolean res = true;
+        if(edtNombre.getText().toString().trim().isEmpty()) {
+            edtNombre.requestFocus();
+            res = false;
+        }
+        if(edtDireccion.getText().toString().trim().isEmpty()) {
+            edtDireccion.requestFocus();
+            res = false;
+        }
+        if(edtEmail.getText().toString().trim().isEmpty()) {
+            edtEmail.requestFocus();
+            res = false;
+        }
+        if(edtTelefono.getText().toString().trim().isEmpty()) {
+            edtTelefono.requestFocus();
+            res = false;
+        }
+        return  res;
     }
 
 }
