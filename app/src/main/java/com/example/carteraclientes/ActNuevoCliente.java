@@ -1,5 +1,6 @@
 package com.example.carteraclientes;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.example.carteraclientes.databinding.ActNuevoClienteBinding;
 
 import BaseDatos.DatosOpenHelper;
+import BaseDatos.DatosOpenHelperContract.ClientEntry;
 
 public class ActNuevoCliente extends AppCompatActivity {
 
@@ -30,6 +32,11 @@ public class ActNuevoCliente extends AppCompatActivity {
     private EditText edtDireccion;
     private EditText edtEmail;
     private EditText edtTelefono;
+
+    private String nombre;
+    private String direccion;
+    private String email;
+    private String telefono;
 
     private SQLiteDatabase conexion;
     private DatosOpenHelper datosOpenHelper;
@@ -77,16 +84,26 @@ public class ActNuevoCliente extends AppCompatActivity {
                 Toast.makeText(this, "Botón Ok seleccionado", Toast.LENGTH_SHORT).show();
                 if(bCamposCorrectos()){
                     try {
-                        datosOpenHelper = new DatosOpenHelper(this);
-                        conexion = datosOpenHelper.getWritableDatabase();
-                        StringBuilder sql = new StringBuilder();
-                        sql.append("INSERT INTO CLIENT (NOMBRE, DIRECCION, EMAIL, TELEFONO) VALUES ('");
-                        sql.append(edtNombre.getText().toString().trim() + "', '");
-                        sql.append(edtDireccion.getText().toString().trim() + "', '");
-                        sql.append(edtEmail.getText().toString().trim() + "', '");
-                        sql.append(edtTelefono.getText().toString().trim() + "')");
+                        // acceder a la base de datos, crea una instancia de la subclase de SQLiteOpenHelper
+                        DatosOpenHelper db = new DatosOpenHelper(this);
+                        // Gets the data repository in write mode
+                        SQLiteDatabase conexion = db.getWritableDatabase();
 
-                        conexion.execSQL(sql.toString());
+                        // Create a new map of values, where column names are the keys
+                        nombre = edtNombre.getText().toString().trim();
+                        direccion = edtDireccion.getText().toString().trim();
+                        email = edtEmail.getText().toString().trim();
+                        telefono = edtTelefono.getText().toString().trim();
+
+                        ContentValues values = new ContentValues();
+                        values.put(ClientEntry.COL_NOMBRE, nombre);
+                        values.put(ClientEntry.COL_DIRECCION, direccion);
+                        values.put(ClientEntry.COL_EMAIL, email);
+                        values.put(ClientEntry.COL_TELEFONO, telefono);
+
+                        // Insert the new row, returning the primary key value of the new row
+                        long newRowId = conexion.insert(ClientEntry.TABLE_NAME, null, values);
+//                        conexion.execSQL(sql.toString());
                         conexion.close();
                         finish();
                     } catch (Exception ex) {
