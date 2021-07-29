@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.BaseColumns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import com.example.carteraclientes.databinding.ActMainBinding;
 import java.util.ArrayList;
 
 import BaseDatos.DatosOpenHelper;
+import BaseDatos.DatosOpenHelperContract.ClientEntry;
 
 public class ActMain extends AppCompatActivity {
 
@@ -63,14 +65,26 @@ public class ActMain extends AppCompatActivity {
         clientes = new ArrayList<String>() ;
 
         try {
-            datosOpenHelper = new DatosOpenHelper(this);
-            conexion = datosOpenHelper.getWritableDatabase();
+            DatosOpenHelper dbClientes = new DatosOpenHelper(this);
+            conexion = dbClientes.getReadableDatabase();
+
+            // Define a projection that specifies which columns from the database
+            // you will actually use after this query.
+            String[] projection = {
+//                    BaseColumns._ID,
+                    ClientEntry.COL_NOMBRE,
+                    ClientEntry.COL_TELEFONO
+            };
+
+
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT * FROM CLIENT");
             String sNombre;
             String sTelefono;
 
-            Cursor resultado = conexion.rawQuery(sql.toString(), null);
+//            Cursor resultado = conexion.rawQuery(sql.toString(), null);
+            Cursor resultado = conexion.query(ClientEntry.TABLE_NAME, projection, null, null, null, null, null);
+
 
             if(resultado.getCount() > 0) {
                 resultado.moveToFirst();
