@@ -15,19 +15,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.ui.AppBarConfiguration;
-
-import com.example.carteraclientes.databinding.ActNuevoClienteBinding;
 
 import BaseDatos.DatosOpenHelper;
 import BaseDatos.DatosOpenHelperContract.ClientEntry;
 
 public class ActNuevoCliente extends AppCompatActivity {
-
-//    private AppBarConfiguration appBarConfiguration;
-//    private ActNuevoClienteBinding binding;
     private EditText edtNombre;
     private EditText edtDireccion;
     private EditText edtEmail;
@@ -45,8 +38,6 @@ public class ActNuevoCliente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        binding = ActNuevoClienteBinding.inflate(getLayoutInflater());
-        // setContentView(binding.getRoot());
         setContentView(R.layout.act_nuevo_cliente);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,17 +47,8 @@ public class ActNuevoCliente extends AppCompatActivity {
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtTelefono = (EditText) findViewById(R.id.edtTelefono);
 
-        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
-        // appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
-    // @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_nuevo_cliente);
-//        return NavigationUI.navigateUp(navController, appBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
@@ -81,7 +63,7 @@ public class ActNuevoCliente extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_ok:
-                Toast.makeText(this, "Botón Ok seleccionado", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Botón Ok seleccionado", Toast.LENGTH_SHORT).show();
                 if(bCamposCorrectos()){
                     try {
                         // acceder a la base de datos, crea una instancia de la subclase de SQLiteOpenHelper
@@ -103,7 +85,6 @@ public class ActNuevoCliente extends AppCompatActivity {
 
                         // Insert the new row, returning the primary key value of the new row
                         long newRowId = conexion.insert(ClientEntry.TABLE_NAME, null, values);
-//                        conexion.execSQL(sql.toString());
                         conexion.close();
                         finish();
                     } catch (Exception ex) {
@@ -123,7 +104,7 @@ public class ActNuevoCliente extends AppCompatActivity {
                 }
                 break;
             case R.id.action_cancelar:
-                Toast.makeText(this, "Botón Cancelar seleccionado", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Botón Cancelar seleccionado", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }

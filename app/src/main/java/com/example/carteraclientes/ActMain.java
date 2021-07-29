@@ -14,9 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
-import androidx.navigation.ui.AppBarConfiguration;
-
 import com.example.carteraclientes.databinding.ActMainBinding;
 
 import java.util.ArrayList;
@@ -25,8 +22,6 @@ import BaseDatos.DatosOpenHelper;
 import BaseDatos.DatosOpenHelperContract.ClientEntry;
 
 public class ActMain extends AppCompatActivity {
-
-//    private AppBarConfiguration appBarConfiguration;
     private ActMainBinding binding;
 
     private ListView lsDatos;
@@ -43,10 +38,6 @@ public class ActMain extends AppCompatActivity {
         binding = ActMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_main);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +62,6 @@ public class ActMain extends AppCompatActivity {
             // Define a projection that specifies which columns from the database
             // you will actually use after this query.
             String[] projection = {
-//                    BaseColumns._ID,
                     ClientEntry.COL_NOMBRE,
                     ClientEntry.COL_TELEFONO
             };
@@ -87,10 +77,10 @@ public class ActMain extends AppCompatActivity {
 
 
             if(resultado.getCount() > 0) {
-                resultado.moveToFirst();
+                resultado.moveToFirst(); // La BD comienza en -1, por eso debe moverse a 0
                 do {
-                    sNombre = resultado.getString(resultado.getColumnIndex("NOMBRE"));
-                    sTelefono = resultado.getString(resultado.getColumnIndex("TELEFONO"));
+                    sNombre = resultado.getString(resultado.getColumnIndex(projection[0]));
+                    sTelefono = resultado.getString(resultado.getColumnIndex(projection[1]));
                     clientes.add(sNombre + ": " + sTelefono);
                 }
                 while (resultado.moveToNext());
@@ -112,12 +102,5 @@ public class ActMain extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         actualizar();
     }
-
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_act_main);
-//        return NavigationUI.navigateUp(navController, appBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
 
 }
